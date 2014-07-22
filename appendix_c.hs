@@ -83,7 +83,7 @@ iota min max = iotaLoop min max []
 
 -- [max, (max - 1)..min] の自作版
 iotaReverse:: Integer -> Integer -> [Integer]
-iotaReverse min max = reverse iota min max
+iotaReverse min max = reverse $ iota min max
 
 {-
 *Main> iota 12 10
@@ -93,5 +93,68 @@ iotaReverse min max = reverse iota min max
 {- p.476-}
 -- Haskell では可変長引数を使うのはリストを引数にすればよい？
 
+
+{- p.481-}
+
+succ':: [Int] -> [Int]
+succ' l = [1] ++ l
+
+pred':: [Int] -> [Int]
+pred' l = drop 1 l
+
+{-
+e.g.
+
+*Main> succ' [1, 1, 1]
+[1,1,1,1]
+*Main> pred' [1, 1, 1]
+[1,1]
+-}
+
+-- 加算のリストでの表現
+-- ガードを使ってみるテスト
+plus:: [Int] -> [Int] -> [Int]
+plus x y
+    | y == []   = x
+    | otherwise = succ' $ plus x (pred' y)
+
+{-
+e.g.
+*Main> plus [1, 1, 1] [1, 1]
+[1,1,1,1,1]
+-}
+
+{-
+Haskell では
+Int 型は C 言語の int
+Integer 型は多倍長整数を表す
+-}
+
+{- p.483 -}
+
+-- 乗算のリストでの表現
+-- パターンマッチを使ってみるテスト
+mult:: [Int] -> [Int] -> [Int]
+mult _ []     = []
+mult x (y:ys) = plus x $ mult x ys
+
+{-
+e.g.
+*Main> mult [1,1] [1, 1, 1]
+[1,1,1,1,1,1]
+*Main> mult [1,1] [1, 1, 1, 1]
+[1,1,1,1,1,1,1,1]
+-}
+
+-- 累乗のリストでの表現
+pow:: [Int] -> [Int] -> [Int]
+pow _ []     = [1]
+pow x (y:ys) = mult x $ pow x ys
+
+{-
+e.g.
+*Main> pow [1, 1] [1, 1, 1]
+[1,1,1,1,1,1,1,1]
+-}
 
 
