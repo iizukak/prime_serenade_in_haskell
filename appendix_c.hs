@@ -158,3 +158,31 @@ e.g.
 -}
 
 
+-- 無限集合を使った自然数の定義
+-- 型をうまく定義できなかった
+-- kakko:: Integer -> [a]
+-- kakko n = if n == 0 then [] else [kakko (n-1)]
+
+
+-- 普通の整数の加算、乗算、べき乗を再帰で定義
+plus', mult', pow':: Integer -> Integer -> Integer
+plus' x 0 = x
+plus' x y = 1 + (plus' x $ y - 1)
+
+mult' x 0 = 0
+mult' x y = x + (mult' x $ y - 1)
+
+pow' x 0 = 1
+pow' x y = x * (pow' x $ y - 1)
+
+{-
+*Main> plus' 2 3
+5
+*Main> mult' 2 3
+6
+*Main> pow' 2 3
+8
+-}
+
+
+
