@@ -184,5 +184,30 @@ pow' x y = x * (pow' x $ y - 1)
 8
 -}
 
+-- 代数的データ型で自然数を表してみる
+data NaturalNumber = Zero | Push (NaturalNumber) deriving Show
+
+{-
+GHCi の :info コマンドが非常に有用であることに気づく
+なぜいままで気付かなかったのか
+
+例えば、以下のように Num 型クラスを :info してみると
+その型クラスのインスタンスの型までわかる
+
+*Main> :info Num
+class Num a where
+  (+) :: a -> a -> a
+  (*) :: a -> a -> a
+  (-) :: a -> a -> a
+  negate :: a -> a
+  abs :: a -> a
+  signum :: a -> a
+  fromInteger :: Integer -> a
+  	-- Defined in `GHC.Num'
+instance Num Integer -- Defined in `GHC.Num'
+instance Num Int -- Defined in `GHC.Num'
+instance Num Float -- Defined in `GHC.Float'
+instance Num Double -- Defined in `GHC.Float'
+-}
 
 
